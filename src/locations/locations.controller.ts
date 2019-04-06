@@ -1,7 +1,7 @@
 import Location, { ILocationModel } from "../models/location";
+import City, { ICityModel } from "../models/city";
 
 class LocationController {
-
   public async getLocation(id: String): Promise<ILocationModel | null> {
     return new Promise<ILocationModel | null>((resolve, reject) => {
       try {
@@ -11,34 +11,71 @@ class LocationController {
           } else {
             resolve(location);
           }
-        })
-      } catch (error) {
-
-      }
+        });
+      } catch (error) {}
     });
   }
 
-  public async newLocation(body: ILocationModel): Promise<ILocationModel | Error> {
-    return new Promise<ILocationModel | Error>((resolve, reject) => {
-      const { submittedBy, imageURL, longitude, latitude } = body;
-      const coordinates = {
-        longitude,
-        latitude
-      }
+  public async newCity(body: ICityModel): Promise<ICityModel | Error> {
+    return new Promise<ICityModel | Error>((resolve, reject) => {
+      const { name } = body;
 
-      const newLocation = new Location({
-        submittedBy,
-        imageURL,
-        coordinates
+      const newCity = new City({
+        name
       });
 
-      newLocation.save((err: Error, location: ILocationModel) => {
+      newCity.save((err: Error, city: ICityModel) => {
         if (err) {
           reject(err);
         } else {
-          resolve(location);
+          resolve(city);
         }
       });
+    });
+  }
+
+  public async newLocation(
+    body: ILocationModel,
+    cityID: String
+  ): Promise<ILocationModel | Error> {
+    return new Promise<ILocationModel | Error>((resolve, reject) => {
+      if (cityID === null) {
+        reject(new Error("No city id provided."));
+      } else {
+        const { submittedBy, imageURL, longitude, latitude } = body;
+        const coordinates = {
+          longitude,
+          latitude
+        };
+
+        const newLocation = new Location({
+          submittedBy,
+          imageURL,
+          coordinates,
+          cityID
+        });
+
+        newLocation.save((err: Error, location: ILocationModel) => {
+          if (err) {
+            reject(err);
+          } else {
+            City.findById(cityID, (err: Error, city: ICityModel) => {
+              if (err) {
+                reject(err);
+              } else {
+                city.locations.push(location._id);
+                city.save((err: Error) => {
+                  if (err) {
+                    reject(err);
+                  } else {
+                    resolve(location);
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
     });
   }
 }

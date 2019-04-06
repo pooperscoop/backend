@@ -1,6 +1,6 @@
-import { Document, Schema, Model, model } from 'mongoose';
-import { Doc } from '../interfaces/doc';
-import { ILocation } from '../interfaces/location';
+import { Document, Schema, Model, model } from "mongoose";
+import { Doc } from "../interfaces/doc";
+import { ILocation } from "../interfaces/location";
 
 export interface ILocationModel extends ILocation, Doc, Document {}
 
@@ -21,10 +21,21 @@ export const LocationSchema: Schema = new Schema({
     latitude: {
       type: String,
       required: true
-    },
+    }
+  },
+  cityID: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "Cities"
   }
+},
+{
+  timestamps: true
 });
 
-const UserModel: Model<ILocationModel> = model<ILocationModel>('Location', LocationSchema);
+const UserModel: Model<ILocationModel> = model<ILocationModel>(
+  "Locations",
+  LocationSchema
+);
 
 export default UserModel;
