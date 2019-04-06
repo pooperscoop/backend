@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose';
 import * as bodyParser from 'body-parser';
 
 import Auth from './auth/auth.routes';
+import Loc from './locations/location.routes';
 
 class Server {
   public server;
@@ -31,6 +32,7 @@ class Server {
 
   private mountRoutes(): void {
     this.server.use('/auth', Auth);
+    this.server.use('/loc', Loc);
   }
 }
 
