@@ -3,4 +3,5 @@ export interface ILocation {
   imageURL: string;
   longitude: string;
   latitude: string;
+  cityID: string;
 }

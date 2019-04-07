@@ -12,83 +12,90 @@ const location_1 = require("../models/location");
 const city_1 = require("../models/city");
 class LocationController {
     getLocation(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                try {
-                    location_1.default.findById(id, (err, location) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        else {
-                            resolve(location);
-                        }
-                    });
-                }
-                catch (error) { }
-            });
-        });
-    }
-    newCity(body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                const { name } = body;
-                const newCity = new city_1.default({
-                    name
-                });
-                newCity.save((err, city) => {
+        return new Promise((resolve, reject) => {
+            try {
+                location_1.default.findById(id, (err, location) => {
                     if (err) {
                         reject(err);
                     }
                     else {
-                        resolve(city);
+                        resolve(location);
                     }
                 });
+            }
+            catch (error) { }
+        });
+    }
+    newCity(body) {
+        return new Promise((resolve, reject) => {
+            const { name } = body;
+            const newCity = new city_1.default({
+                name
+            });
+            newCity.save((err, city) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(city);
+                }
             });
         });
     }
+    accept(id) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const location = yield location_1.default.findById(id);
+                const city = yield city_1.default.findById(location.cityID);
+                yield city.removeLocation(id, 'locations', 'accepted');
+                resolve(id);
+            }
+            catch (error) {
+                reject(error);
+            }
+        }));
+    }
     newLocation(body, cityID) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                if (cityID === null) {
-                    reject(new Error("No city id provided."));
-                }
-                else {
-                    const { submittedBy, imageURL, longitude, latitude } = body;
-                    const coordinates = {
-                        longitude,
-                        latitude
-                    };
-                    const newLocation = new location_1.default({
-                        submittedBy,
-                        imageURL,
-                        coordinates,
-                        cityID
-                    });
-                    newLocation.save((err, location) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        else {
-                            city_1.default.findById(cityID, (err, city) => {
-                                if (err) {
-                                    reject(err);
-                                }
-                                else {
-                                    city.locations.push(location._id);
-                                    city.save((err) => {
-                                        if (err) {
-                                            reject(err);
-                                        }
-                                        else {
-                                            resolve(location);
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+        return new Promise((resolve, reject) => {
+            if (cityID === null) {
+                reject(new Error("No city id provided."));
+            }
+            else {
+                const { submittedBy, imageURL, longitude, latitude } = body;
+                const coordinates = {
+                    longitude,
+                    latitude
+                };
+                const newLocation = new location_1.default({
+                    submittedBy,
+                    imageURL,
+                    coordinates,
+                    cityID
+                });
+                newLocation.save((err, location) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        city_1.default.findById(cityID, (err, city) => {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                city.locations.push(location._id);
+                                city.save((err) => {
+                                    if (err) {
+                                        reject(err);
+                                    }
+                                    else {
+                                        resolve(location);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
     }
 }

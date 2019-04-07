@@ -2,7 +2,7 @@ import Location, { ILocationModel } from "../models/location";
 import City, { ICityModel } from "../models/city";
 
 class LocationController {
-  public async getLocation(id: String): Promise<ILocationModel | null> {
+  public getLocation(id: String): Promise<ILocationModel | null> {
     return new Promise<ILocationModel | null>((resolve, reject) => {
       try {
         Location.findById(id, (err: Error, location: ILocationModel) => {
@@ -16,7 +16,7 @@ class LocationController {
     });
   }
 
-  public async newCity(body: ICityModel): Promise<ICityModel | Error> {
+  public newCity(body: ICityModel): Promise<ICityModel | Error> {
     return new Promise<ICityModel | Error>((resolve, reject) => {
       const { name } = body;
 
@@ -34,7 +34,22 @@ class LocationController {
     });
   }
 
-  public async newLocation(
+  public accept(id: string): Promise<string | Error> {
+    return new Promise<string | Error>(async (resolve, reject) => {
+      try {
+        const location = await Location.findById(id);
+        const city = await City.findById(location.cityID);
+        
+        await city.removeLocation(id, 'locations', 'accepted');
+        
+        resolve(id);
+      } catch (error) {
+        reject(error)
+      }
+    });
+  }
+
+  public newLocation(
     body: ILocationModel,
     cityID: String
   ): Promise<ILocationModel | Error> {

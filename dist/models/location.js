@@ -28,6 +28,6 @@ exports.LocationSchema = new mongoose_1.Schema({
 }, {
     timestamps: true
 });
-const UserModel = mongoose_1.model("Locations", exports.LocationSchema);
-exports.default = UserModel;
+const LocationModel = mongoose_1.model("Locations", exports.LocationSchema);
+exports.default = LocationModel;
 //# sourceMappingURL=location.js.map

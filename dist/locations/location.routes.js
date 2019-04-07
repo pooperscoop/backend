@@ -40,8 +40,29 @@ class Locations {
                 });
             }
         }));
+        this.router.get("/accept/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const location = yield locations_controller_1.default.accept(req.params.id);
+                res.status(200).json({
+                    location
+                });
+            }
+            catch (error) {
+                res.status(400).json({
+                    error
+                });
+            }
+        }));
+        this.router.get("/deny/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+            }
+            catch (error) {
+                res.status(400).json({
+                    error
+                });
+            }
+        }));
         this.router.post("/new", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log('hit new location: ', req.body);
             const cityID = req.get("cityID") ? req.get("cityID") : null;
             try {
                 const location = yield locations_controller_1.default.newLocation(req.body, cityID);

@@ -41,8 +41,30 @@ class Locations {
       }
     });
 
+    this.router.get("/accept/:id", async (req, res) => {
+      try {
+        const location = await loc.accept(req.params.id);
+        res.status(200).json({
+          location
+        });
+      } catch (error) {
+        res.status(400).json({
+          error
+        })
+      }
+    });
+
+    this.router.get("/deny/:id", async (req, res) => {
+      try {
+        
+      } catch (error) {
+        res.status(400).json({
+          error
+        })
+      }
+    });
+
     this.router.post("/new", async (req, res) => {
-      console.log('hit new location: ', req.body);
       const cityID = req.get("cityID") ? req.get("cityID") : null;
       try {
         const location: ILocationModel | Error = await loc.newLocation(

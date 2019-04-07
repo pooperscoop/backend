@@ -33,9 +33,9 @@ export const LocationSchema: Schema = new Schema({
   timestamps: true
 });
 
-const UserModel: Model<ILocationModel> = model<ILocationModel>(
+const LocationModel: Model<ILocationModel> = model<ILocationModel>(
   "Locations",
   LocationSchema
 );
 
-export default UserModel;
+export default LocationModel;
