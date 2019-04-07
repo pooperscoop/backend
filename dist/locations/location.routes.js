@@ -15,29 +15,43 @@ class Locations {
         this.router = express.Router();
         this.router.route("/");
         this.router.get("/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const location = yield locations_controller_1.default.getLocation(req.params.id);
-                res.status(200).json({
-                    location
+            if (req.user === null) {
+                res.status(400).json({
+                    error: "User must be logged in."
                 });
             }
-            catch (error) {
-                res.status(400).json({
-                    error
-                });
+            else {
+                try {
+                    const location = yield locations_controller_1.default.getLocation(req.params.id);
+                    res.status(200).json({
+                        location
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        error
+                    });
+                }
             }
         }));
         this.router.get("/city/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const city = yield locations_controller_1.default.getCity(req.params.id);
-                res.status(200).json({
-                    city
+            if (req.user === null) {
+                res.status(400).json({
+                    error: "User must be logged in."
                 });
             }
-            catch (error) {
-                res.status(400).json({
-                    error
-                });
+            else {
+                try {
+                    const city = yield locations_controller_1.default.getCity(req.params.id);
+                    res.status(200).json({
+                        city
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        error
+                    });
+                }
             }
         }));
         this.router.get("/route/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -48,48 +62,69 @@ class Locations {
                 });
             }
             catch (error) {
-                res.status(400).json({
+                res.status(500).json({
                     error
                 });
             }
         }));
         this.router.post("/newCity", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const city = yield locations_controller_1.default.newCity(req.body);
-                res.status(200).json({
-                    city
+            if (req.user === null) {
+                res.status(400).json({
+                    error: "User must be logged in."
                 });
             }
-            catch (error) {
-                res.status(400).json({
-                    error
-                });
+            else {
+                try {
+                    const city = yield locations_controller_1.default.newCity(req.body);
+                    res.status(200).json({
+                        city
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        error
+                    });
+                }
             }
         }));
         this.router.get("/accept/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const location = yield locations_controller_1.default.accept(req.params.id);
-                res.status(200).json({
-                    location
+            if (req.user === null) {
+                res.status(400).json({
+                    error: "User must be logged in."
                 });
             }
-            catch (error) {
-                res.status(400).json({
-                    error
-                });
+            else {
+                try {
+                    const location = yield locations_controller_1.default.accept(req.params.id);
+                    res.status(200).json({
+                        location
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        error
+                    });
+                }
             }
         }));
         this.router.get("/reject/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const location = yield locations_controller_1.default.reject(req.params.id);
-                res.status(200).json({
-                    location
+            if (req.user === null) {
+                res.status(400).json({
+                    error: "User must be logged in."
                 });
             }
-            catch (error) {
-                res.status(400).json({
-                    error
-                });
+            else {
+                try {
+                    const location = yield locations_controller_1.default.reject(req.params.id);
+                    res.status(200).json({
+                        location
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        error
+                    });
+                }
             }
         }));
         this.router.post("/new", (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -101,7 +136,7 @@ class Locations {
                 });
             }
             catch (error) {
-                res.status(400).json({
+                res.status(500).json({
                     error
                 });
             }

@@ -13,31 +13,43 @@ class Locations {
 
     this.router.route("/");
 
-    this.router.get("/:id", async (req, res) => {
-      try {
-        const location: ILocationModel | Error = await loc.getLocation(
-          req.params.id
-        );
-        res.status(200).json({
-          location
-        });
-      } catch (error) {
+    this.router.get("/:id", async (req: any, res) => {
+      if (req.user === null) {
         res.status(400).json({
-          error
+          error: "User must be logged in."
         });
+      } else {
+        try {
+          const location: ILocationModel | Error = await loc.getLocation(
+            req.params.id
+          );
+          res.status(200).json({
+            location
+          });
+        } catch (error) {
+          res.status(500).json({
+            error
+          });
+        }
       }
     });
 
-    this.router.get("/city/:id", async (req, res) => {
-      try {
-        const city: ICityModel | Error = await loc.getCity(req.params.id);
-        res.status(200).json({
-          city
-        });
-      } catch (error) {
+    this.router.get("/city/:id", async (req: any, res) => {
+      if (req.user === null) {
         res.status(400).json({
-          error
+          error: "User must be logged in."
         });
+      } else {
+        try {
+          const city: ICityModel | Error = await loc.getCity(req.params.id);
+          res.status(200).json({
+            city
+          });
+        } catch (error) {
+          res.status(500).json({
+            error
+          });
+        }
       }
     });
 
@@ -48,48 +60,66 @@ class Locations {
           route
         });
       } catch (error) {
-        res.status(400).json({
+        res.status(500).json({
           error
         });
       }
     });
 
     this.router.post("/newCity", async (req: any, res) => {
-      try {
-        const city: ICityModel | Error = await loc.newCity(req.body);
-        res.status(200).json({
-          city
-        });
-      } catch (error) {
+      if (req.user === null) {
         res.status(400).json({
-          error
+          error: "User must be logged in."
         });
+      } else {
+        try {
+          const city: ICityModel | Error = await loc.newCity(req.body);
+          res.status(200).json({
+            city
+          });
+        } catch (error) {
+          res.status(500).json({
+            error
+          });
+        }
       }
     });
 
-    this.router.get("/accept/:id", async (req, res) => {
-      try {
-        const location = await loc.accept(req.params.id);
-        res.status(200).json({
-          location
-        });
-      } catch (error) {
+    this.router.get("/accept/:id", async (req: any, res) => {
+      if (req.user === null) {
         res.status(400).json({
-          error
+          error: "User must be logged in."
         });
+      } else {
+        try {
+          const location = await loc.accept(req.params.id);
+          res.status(200).json({
+            location
+          });
+        } catch (error) {
+          res.status(500).json({
+            error
+          });
+        }
       }
     });
 
-    this.router.get("/reject/:id", async (req, res) => {
-      try {
-        const location = await loc.reject(req.params.id);
-        res.status(200).json({
-          location
-        });
-      } catch (error) {
+    this.router.get("/reject/:id", async (req: any, res) => {
+      if (req.user === null) {
         res.status(400).json({
-          error
+          error: "User must be logged in."
         });
+      } else {
+        try {
+          const location = await loc.reject(req.params.id);
+          res.status(200).json({
+            location
+          });
+        } catch (error) {
+          res.status(500).json({
+            error
+          });
+        }
       }
     });
 
@@ -104,7 +134,7 @@ class Locations {
           location
         });
       } catch (error) {
-        res.status(400).json({
+        res.status(500).json({
           error
         });
       }
