@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const auth_routes_1 = require("./auth/auth.routes");
 const location_routes_1 = require("./locations/location.routes");
 class Server {
@@ -24,6 +25,7 @@ class Server {
     applyMiddleware() {
         this.server.use(bodyParser.json());
         this.server.use(bodyParser.urlencoded({ extended: true }));
+        this.server.use(cors());
     }
     mountRoutes() {
         this.server.use('/auth', auth_routes_1.default);
