@@ -27,6 +27,20 @@ class Locations {
                 });
             }
         }));
+        this.router.get("/city/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const city = yield locations_controller_1.default.getCity(req.params.id);
+                res.status(200).json({
+                    city
+                });
+            }
+            catch (error) {
+                console.log('error: ', error);
+                res.status(400).json({
+                    error
+                });
+            }
+        }));
         this.router.post("/newCity", (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const city = yield locations_controller_1.default.newCity(req.body);

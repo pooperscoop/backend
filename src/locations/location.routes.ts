@@ -28,6 +28,20 @@ class Locations {
       }
     });
 
+    this.router.get("/city/:id", async (req, res) => {
+      try {
+        const city: ICityModel | Error = await loc.getCity(req.params.id);
+        res.status(200).json({
+          city
+        });
+      } catch (error) {
+        console.log('error: ', error)
+        res.status(400).json({
+          error
+        });
+      }
+    });
+
     this.router.post("/newCity", async (req, res) => {
       try {
         const city: ICityModel | Error = await loc.newCity(req.body);

@@ -26,6 +26,19 @@ class LocationController {
             catch (error) { }
         });
     }
+    getCity(id) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const city = yield city_1.default.findById(id)
+                    .populate("locations")
+                    .populate("accepted");
+                resolve(city);
+            }
+            catch (error) {
+                reject(error);
+            }
+        }));
+    }
     newCity(body) {
         return new Promise((resolve, reject) => {
             const { name } = body;
@@ -68,6 +81,15 @@ class LocationController {
                 city.removeLocation(id, "locations");
                 yield city.save();
                 resolve(id);
+            }
+            catch (error) {
+                reject(error);
+            }
+        }));
+    }
+    getRoute(cityID) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
             }
             catch (error) {
                 reject(error);
@@ -117,6 +139,27 @@ class LocationController {
             }
         });
     }
+}
+// helpers
+// https://stackoverflow.com/questions/29118745/get-nearest-latitude-and-longitude-from-array
+function distance(position1, position2) {
+    var lat1 = position1.latitude;
+    var lat2 = position2.latitude;
+    var lon1 = position1.longitude;
+    var lon2 = position2.longitude;
+    var R = 6371000; // metres
+    var φ1 = toRadians(lat1);
+    var φ2 = toRadians(lat2);
+    var Δφ = toRadians(lat2 - lat1);
+    var Δλ = toRadians(lon2 - lon1);
+    var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d;
+}
+function toRadians(val) {
+    return (val * Math.PI) / 180;
 }
 exports.default = new LocationController();
 //# sourceMappingURL=locations.controller.js.map
