@@ -38,13 +38,34 @@ class LocationController {
     return new Promise<string | Error>(async (resolve, reject) => {
       try {
         const location = await Location.findById(id);
+        location.acceptedAt = new Date();
+        await location.save();
+
         const city = await City.findById(location.cityID);
-        
-        await city.removeLocation(id, 'locations', 'accepted');
-        
+        city.removeLocation(id, "locations", "accepted");
+        await city.save();
+
         resolve(id);
       } catch (error) {
-        reject(error)
+        reject(error);
+      }
+    });
+  }
+
+  public reject(id: string): Promise<string | Error> {
+    return new Promise<string | Error>(async (resolve, reject) => {
+      try {
+        const location = await Location.findById(id);
+        location.rejectedAt = new Date();
+        await location.save();
+
+        const city = await City.findById(location.cityID);
+        city.removeLocation(id, "locations");
+        await city.save();
+
+        resolve(id);
+      } catch (error) {
+        reject(error);
       }
     });
   }

@@ -38,7 +38,7 @@ CitySchema.methods.removeLocation = function(
   return new Promise<Boolean | Error>(async (resolve, reject) => {
     try {
       const newArray = this[from].filter((loc: string) => {
-        return loc !== id;
+        return loc.toString() !== id;
       });
 
       this[from] = newArray;
@@ -47,7 +47,6 @@ CitySchema.methods.removeLocation = function(
         this[to].push(id);
       }
 
-      await this.save();
       resolve(true);
     } catch (error) {
       reject(error);

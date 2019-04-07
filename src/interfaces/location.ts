@@ -4,4 +4,6 @@ export interface ILocation {
   longitude: string;
   latitude: string;
   cityID: string;
+  acceptedAt?: Date;
+  rejectedAt?: Date;
 }

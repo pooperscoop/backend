@@ -53,8 +53,12 @@ class Locations {
                 });
             }
         }));
-        this.router.get("/deny/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.router.get("/reject/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
+                const location = yield locations_controller_1.default.reject(req.params.id);
+                res.status(200).json({
+                    location
+                });
             }
             catch (error) {
                 res.status(400).json({

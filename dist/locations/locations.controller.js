@@ -46,8 +46,27 @@ class LocationController {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const location = yield location_1.default.findById(id);
+                location.acceptedAt = new Date();
+                yield location.save();
                 const city = yield city_1.default.findById(location.cityID);
-                yield city.removeLocation(id, 'locations', 'accepted');
+                city.removeLocation(id, "locations", "accepted");
+                yield city.save();
+                resolve(id);
+            }
+            catch (error) {
+                reject(error);
+            }
+        }));
+    }
+    reject(id) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const location = yield location_1.default.findById(id);
+                location.rejectedAt = new Date();
+                yield location.save();
+                const city = yield city_1.default.findById(location.cityID);
+                city.removeLocation(id, "locations");
+                yield city.save();
                 resolve(id);
             }
             catch (error) {

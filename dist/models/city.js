@@ -33,13 +33,12 @@ exports.CitySchema.methods.removeLocation = function (id, from, to = null) {
     return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
         try {
             const newArray = this[from].filter((loc) => {
-                return loc !== id;
+                return loc.toString() !== id;
             });
             this[from] = newArray;
             if (to !== null) {
                 this[to].push(id);
             }
-            yield this.save();
             resolve(true);
         }
         catch (error) {

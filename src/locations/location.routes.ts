@@ -50,17 +50,20 @@ class Locations {
       } catch (error) {
         res.status(400).json({
           error
-        })
+        });
       }
     });
 
-    this.router.get("/deny/:id", async (req, res) => {
+    this.router.get("/reject/:id", async (req, res) => {
       try {
-        
+        const location = await loc.reject(req.params.id);
+        res.status(200).json({
+          location
+        });
       } catch (error) {
         res.status(400).json({
           error
-        })
+        });
       }
     });
 

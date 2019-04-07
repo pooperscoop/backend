@@ -27,6 +27,12 @@ export const LocationSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: "Cities"
+  },
+  acceptedAt: {
+    type: Date
+  },
+  rejectedAt: {
+    type: Date
   }
 },
 {

@@ -24,6 +24,12 @@ exports.LocationSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         required: true,
         ref: "Cities"
+    },
+    acceptedAt: {
+        type: Date
+    },
+    rejectedAt: {
+        type: Date
     }
 }, {
     timestamps: true
