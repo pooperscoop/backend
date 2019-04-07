@@ -112,7 +112,7 @@ class LocationController {
                 });
                 const tenClosest = [origin];
                 for (let i = 0; i < 10; i++) {
-                    if (i >= sorted.length) {
+                    if (i >= sorted.length - 1) {
                         break;
                     }
                     else {
