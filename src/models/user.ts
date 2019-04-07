@@ -23,18 +23,22 @@ export const UserSchema: Schema = new Schema({
   },
   password: {
     type: String,
-    min: [6, 'Password too short.'],
-    max: [20, 'Password too long.'],
-    required: true,
-    validate: {
-      validator: (password: string) =>
-        /([A-Z]+){1,}([a-z]+){1,}([0-9]+){1,}([?!@#$%^&*()_\-+=/\\.,<>;:'"]){1,}/g.test(
-          password
-        ),
-      message:
-        'Password must contain an uppercase letter, lowercase letter, a number, and a symbol.'
-    }
+    required: true
   },
+  // password: {
+  //   type: String,
+  //   min: [6, 'Password too short.'],
+  //   max: [20, 'Password too long.'],
+  //   required: true,
+  //   validate: {
+  //     validator: (password: string) =>
+  //       /([A-Z]+){1,}([a-z]+){1,}([0-9]+){1,}([?!@#$%^&*()_\-+=/\\.,<>;:'"]){1,}/g.test(
+  //         password
+  //       ),
+  //     message:
+  //       'Password must contain an uppercase letter, lowercase letter, a number, and a symbol.'
+  //   }
+  // },
   firstName: {
     type: String,
     required: true
