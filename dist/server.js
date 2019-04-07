@@ -21,7 +21,7 @@ class Server {
             useCreateIndex: true
         });
         const db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'MongoDB Connection error'));
+        db.on("error", console.error.bind(console, "MongoDB Connection error"));
     }
     applyMiddleware() {
         this.server.use(bodyParser.json());
@@ -30,8 +30,8 @@ class Server {
         this.server.use(cors());
     }
     mountRoutes() {
-        this.server.use('/auth', auth_routes_1.default);
-        this.server.use('/loc', location_routes_1.default);
+        this.server.use("/auth", auth_routes_1.default);
+        this.server.use("/loc", location_routes_1.default);
     }
 }
 exports.default = new Server().server;

@@ -15,12 +15,14 @@ const user_1 = require("../models/user");
 class AuthController {
     constructor() {
         this.authenticate = (req, _, next) => {
-            const token = req.get('token') ? req.get('token') : null;
+            const token = req.get("token") ? req.get("token") : null;
             if (token === null) {
                 req.user = null;
             }
             else {
-                const decodedToken = jwt.decode(token, { complete: true }) || { payload: null };
+                const decodedToken = jwt.decode(token, { complete: true }) || {
+                    payload: null
+                };
                 req.user = decodedToken.payload;
             }
             next();
@@ -30,7 +32,7 @@ class AuthController {
         const token = jwt.sign({
             _id: user._id
         }, process.env.JWT_SECRET, {
-            expiresIn: '60 days'
+            expiresIn: "60 days"
         });
         return {
             token,
@@ -65,7 +67,7 @@ class AuthController {
                     });
                 }
                 else {
-                    reject(new Error('Invalid token.'));
+                    reject(new Error("Invalid token."));
                 }
             });
         });
@@ -87,7 +89,7 @@ class AuthController {
                                 resolve(resp);
                             }
                             else {
-                                reject(new Error('Invalid credentials.'));
+                                reject(new Error("Invalid credentials."));
                             }
                         }
                         catch (error) {
@@ -120,7 +122,7 @@ class AuthController {
                     else {
                         const link = `${process.env.HOST_URL}/auth/verify/${user._id}/${user.verifyCode}`;
                         // TODO: Change emails
-                        mailer_controller_1.default.sendEmail('no-reply@tsnode.com', user.email, 'Welcome', 'emails/signup.hbs', {
+                        mailer_controller_1.default.sendEmail("no-reply@tsnode.com", user.email, "Welcome", "emails/signup.hbs", {
                             name: user.firstName,
                             link
                         })
@@ -156,7 +158,7 @@ class AuthController {
                             else {
                                 const link = `${process.env.HOST_URL}/auth/verify/${user._id}/${user.verifyCode}`;
                                 // TODO: Change emails
-                                mailer_controller_1.default.sendEmail('no-reply@tsnode.com', user.email, 'Verify Email', 'emails/signup.hbs', {
+                                mailer_controller_1.default.sendEmail("no-reply@tsnode.com", user.email, "Verify Email", "emails/signup.hbs", {
                                     name: user.firstName,
                                     link
                                 })
@@ -183,7 +185,7 @@ class AuthController {
                     else {
                         const today = new Date();
                         if (user.verifyExp < today) {
-                            resolve('Verification link expired.');
+                            resolve("Verification link expired.");
                         }
                         else {
                             if (user.verifyCode === verifyCode) {
@@ -200,7 +202,7 @@ class AuthController {
                                 });
                             }
                             else {
-                                resolve('Invalid verification link.');
+                                resolve("Invalid verification link.");
                             }
                         }
                     }

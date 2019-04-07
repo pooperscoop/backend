@@ -1,12 +1,12 @@
-import * as express from 'express';
-import * as mongoose from 'mongoose';
-import * as bodyParser from 'body-parser';
-import * as cors from 'cors';
+import * as express from "express";
+import * as mongoose from "mongoose";
+import * as bodyParser from "body-parser";
+import * as cors from "cors";
 
-import auth from './auth/auth.controller'
+import auth from "./auth/auth.controller";
 
-import Auth from './auth/auth.routes';
-import Loc from './locations/location.routes'
+import Auth from "./auth/auth.routes";
+import Loc from "./locations/location.routes";
 
 class Server {
   public server;
@@ -25,7 +25,7 @@ class Server {
       useCreateIndex: true
     });
     const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'MongoDB Connection error'));
+    db.on("error", console.error.bind(console, "MongoDB Connection error"));
   }
 
   private applyMiddleware(): void {
@@ -36,8 +36,8 @@ class Server {
   }
 
   private mountRoutes(): void {
-    this.server.use('/auth', Auth);
-    this.server.use('/loc', Loc);
+    this.server.use("/auth", Auth);
+    this.server.use("/loc", Loc);
   }
 }
 

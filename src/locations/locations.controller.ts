@@ -120,7 +120,7 @@ class LocationController {
             tenClosest.push(city.accepted[sorted[i].index]);
           }
         }
-        
+
         resolve(tenClosest);
       } catch (error) {
         reject(error);

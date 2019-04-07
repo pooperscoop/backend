@@ -20,7 +20,7 @@ class Mailer {
                 subject,
                 template: {
                     name: template,
-                    engine: 'handlebars',
+                    engine: "handlebars",
                     context
                 }
             }, (err, info) => {

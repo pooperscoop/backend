@@ -9,7 +9,7 @@ exports.UserSchema = new mongoose_1.Schema({
         required: true,
         validate: {
             validator: (email) => /^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g.test(email),
-            message: 'Invalid email.'
+            message: "Invalid email."
         }
     },
     password: {
@@ -55,13 +55,13 @@ exports.UserSchema = new mongoose_1.Schema({
         type: Date
     }
 });
-exports.UserSchema.pre('save', function (next) {
+exports.UserSchema.pre("save", function (next) {
     const now = new Date();
     this.updatedAt = now;
     if (!this.createdAt) {
         this.createdAt = now;
     }
-    if (!this.isModified('password')) {
+    if (!this.isModified("password")) {
         next();
     }
     else {
@@ -91,6 +91,6 @@ exports.UserSchema.methods.comparePassword = function (password) {
         });
     });
 };
-const UserModel = mongoose_1.model('User', exports.UserSchema);
+const UserModel = mongoose_1.model("User", exports.UserSchema);
 exports.default = UserModel;
 //# sourceMappingURL=user.js.map

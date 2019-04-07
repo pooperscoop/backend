@@ -1,7 +1,7 @@
-import { SentMessageInfo, createTransport } from 'nodemailer';
-import * as mg from 'nodemailer-mailgun-transport';
+import { SentMessageInfo, createTransport } from "nodemailer";
+import * as mg from "nodemailer-mailgun-transport";
 
-import { MailGunner } from '../interfaces/mailer';
+import { MailGunner } from "../interfaces/mailer";
 
 class Mailer {
   mgAuth: mg.Options;
@@ -33,7 +33,7 @@ class Mailer {
           subject,
           template: {
             name: template,
-            engine: 'handlebars',
+            engine: "handlebars",
             context
           }
         },
