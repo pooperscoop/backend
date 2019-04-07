@@ -87,9 +87,39 @@ class LocationController {
             }
         }));
     }
-    getRoute(cityID) {
+    getRoute(id) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
+                const city = yield city_1.default.findById(id).populate("accepted");
+                const workingArray = city.accepted;
+                const origin = city.accepted[0];
+                workingArray.shift;
+                const distanceArray = workingArray.map((loc, index) => {
+                    const dist = distance(origin.coordinates, loc.coordinates);
+                    return {
+                        dist,
+                        index: index + 1
+                    };
+                });
+                const sorted = distanceArray.sort((a, b) => {
+                    var keyA = a.dist, keyB = b.dist;
+                    // Compare the 2 dates
+                    if (keyA < keyB)
+                        return -1;
+                    if (keyA > keyB)
+                        return 1;
+                    return 0;
+                });
+                const tenClosest = [origin];
+                for (let i = 0; i < 10; i++) {
+                    if (i >= sorted.length) {
+                        break;
+                    }
+                    else {
+                        tenClosest.push(city.accepted[sorted[i].index]);
+                    }
+                }
+                resolve(tenClosest);
             }
             catch (error) {
                 reject(error);
@@ -143,10 +173,10 @@ class LocationController {
 // helpers
 // https://stackoverflow.com/questions/29118745/get-nearest-latitude-and-longitude-from-array
 function distance(position1, position2) {
-    var lat1 = position1.latitude;
-    var lat2 = position2.latitude;
-    var lon1 = position1.longitude;
-    var lon2 = position2.longitude;
+    var lat1 = parseFloat(position1.latitude);
+    var lat2 = parseFloat(position2.latitude);
+    var lon1 = parseFloat(position1.longitude);
+    var lon2 = parseFloat(position2.longitude);
     var R = 6371000; // metres
     var φ1 = toRadians(lat1);
     var φ2 = toRadians(lat2);

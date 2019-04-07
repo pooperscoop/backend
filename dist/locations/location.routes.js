@@ -35,7 +35,19 @@ class Locations {
                 });
             }
             catch (error) {
-                console.log('error: ', error);
+                res.status(400).json({
+                    error
+                });
+            }
+        }));
+        this.router.get("/route/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const route = yield locations_controller_1.default.getRoute(req.params.id);
+                res.status(200).json({
+                    route
+                });
+            }
+            catch (error) {
                 res.status(400).json({
                     error
                 });

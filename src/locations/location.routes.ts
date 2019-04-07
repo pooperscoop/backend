@@ -35,7 +35,19 @@ class Locations {
           city
         });
       } catch (error) {
-        console.log('error: ', error)
+        res.status(400).json({
+          error
+        });
+      }
+    });
+
+    this.router.get("/route/:id", async (req, res) => {
+      try {
+        const route = await loc.getRoute(req.params.id);
+        res.status(200).json({
+          route
+        });
+      } catch (error) {
         res.status(400).json({
           error
         });

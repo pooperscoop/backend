@@ -1,6 +1,8 @@
 import Location, { ILocationModel } from "../models/location";
 import City, { ICityModel } from "../models/city";
 
+import { ILocationBody } from "../interfaces/location";
+
 class LocationController {
   public getLocation(id: string): Promise<ILocationModel | null> {
     return new Promise<ILocationModel | null>((resolve, reject) => {
@@ -83,9 +85,43 @@ class LocationController {
     });
   }
 
-  public getRoute(cityID: string): Promise<[string] | Error> {
-    return new Promise<[string] | Error>(async (resolve, reject) => {
+  public getRoute(id: string): Promise<ILocationModel[] | Error> {
+    return new Promise<ILocationModel[] | Error>(async (resolve, reject) => {
       try {
+        const city = await City.findById(id).populate("accepted");
+        const workingArray = city.accepted;
+        const origin: ILocationModel = city.accepted[0];
+        workingArray.shift;
+
+        const distanceArray = workingArray.map(
+          (loc: ILocationModel, index: number) => {
+            const dist = distance(origin.coordinates, loc.coordinates);
+            return {
+              dist,
+              index: index + 1
+            };
+          }
+        );
+
+        const sorted = distanceArray.sort((a, b) => {
+          var keyA = a.dist,
+            keyB = b.dist;
+          // Compare the 2 dates
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
+        });
+
+        const tenClosest = [origin];
+        for (let i = 0; i < 10; i++) {
+          if (i >= sorted.length) {
+            break;
+          } else {
+            tenClosest.push(city.accepted[sorted[i].index]);
+          }
+        }
+        
+        resolve(tenClosest);
       } catch (error) {
         reject(error);
       }
@@ -93,7 +129,7 @@ class LocationController {
   }
 
   public newLocation(
-    body: ILocationModel,
+    body: ILocationBody,
     cityID: String
   ): Promise<ILocationModel | Error> {
     return new Promise<ILocationModel | Error>((resolve, reject) => {
@@ -142,13 +178,13 @@ class LocationController {
 
 // https://stackoverflow.com/questions/29118745/get-nearest-latitude-and-longitude-from-array
 function distance(
-  position1: { latitude: number; longitude: number },
-  position2: { latitude: number; longitude: number }
+  position1: { latitude: string; longitude: string },
+  position2: { latitude: string; longitude: string }
 ): number {
-  var lat1 = position1.latitude;
-  var lat2 = position2.latitude;
-  var lon1 = position1.longitude;
-  var lon2 = position2.longitude;
+  var lat1 = parseFloat(position1.latitude);
+  var lat2 = parseFloat(position2.latitude);
+  var lon1 = parseFloat(position1.longitude);
+  var lon2 = parseFloat(position2.longitude);
   var R = 6371000; // metres
   var φ1 = toRadians(lat1);
   var φ2 = toRadians(lat2);
