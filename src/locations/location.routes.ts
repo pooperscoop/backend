@@ -42,6 +42,7 @@ class Locations {
     });
 
     this.router.post("/new", async (req, res) => {
+      console.log('hit new location: ', req.body);
       const cityID = req.get("cityID") ? req.get("cityID") : null;
       try {
         const location: ILocationModel | Error = await loc.newLocation(

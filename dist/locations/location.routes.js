@@ -41,6 +41,7 @@ class Locations {
             }
         }));
         this.router.post("/new", (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log('hit new location: ', req.body);
             const cityID = req.get("cityID") ? req.get("cityID") : null;
             try {
                 const location = yield locations_controller_1.default.newLocation(req.body, cityID);
