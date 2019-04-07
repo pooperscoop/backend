@@ -202,6 +202,18 @@ class AuthController {
       });
     });
   }
+
+  public authenticate = (req: any, _: any, next: Function) => {
+    const token = req.get('token') ? req.get('token') : null;
+    if (token === null) {
+      req.user = null;
+    } else {
+      const decodedToken: any = jwt.decode(token, { complete: true }) || { payload: null };
+      req.user = decodedToken.payload;
+    }
+  
+    next();
+  };
 }
 
 export default new AuthController();

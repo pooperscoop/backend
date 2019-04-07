@@ -54,7 +54,7 @@ class Locations {
       }
     });
 
-    this.router.post("/newCity", async (req, res) => {
+    this.router.post("/newCity", async (req: any, res) => {
       try {
         const city: ICityModel | Error = await loc.newCity(req.body);
         res.status(200).json({

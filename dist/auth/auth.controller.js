@@ -13,6 +13,19 @@ const uniqid = require("uniqid");
 const mailer_controller_1 = require("../mailer/mailer.controller");
 const user_1 = require("../models/user");
 class AuthController {
+    constructor() {
+        this.authenticate = (req, _, next) => {
+            const token = req.get('token') ? req.get('token') : null;
+            if (token === null) {
+                req.user = null;
+            }
+            else {
+                const decodedToken = jwt.decode(token, { complete: true }) || { payload: null };
+                req.user = decodedToken.payload;
+            }
+            next();
+        };
+    }
     generateToken(user) {
         const token = jwt.sign({
             _id: user._id

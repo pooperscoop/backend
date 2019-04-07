@@ -3,8 +3,10 @@ import * as mongoose from 'mongoose';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
+import auth from './auth/auth.controller'
+
 import Auth from './auth/auth.routes';
-import Loc from './locations/location.routes';
+import Loc from './locations/location.routes'
 
 class Server {
   public server;
@@ -29,6 +31,7 @@ class Server {
   private applyMiddleware(): void {
     this.server.use(bodyParser.json());
     this.server.use(bodyParser.urlencoded({ extended: true }));
+    this.server.use(auth.authenticate);
     this.server.use(cors());
   }
 
