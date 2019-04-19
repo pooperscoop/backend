@@ -16,6 +16,8 @@
 
 pkg/
 
+docker-compose.override.yml
+
 ### VSCode ###
 .vscode
 
