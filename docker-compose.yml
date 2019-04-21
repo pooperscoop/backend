@@ -3,10 +3,7 @@ services:
   snapoo:
     container_name: snapoo
     restart: always
-    build: 
-      context: .
-      args: 
-        ENVIRONMENT: dev
+    build: .
     ports:
       - "4200:4200"
     depends_on:
@@ -14,6 +11,7 @@ services:
     links:
       - mongo
     environment: 
+      - ENVIRONMENT=dev
       - HOST_URL=domain.com
       - PORT=4200
       - MONGO_URI=mongodb://mongo:27017/snapoo

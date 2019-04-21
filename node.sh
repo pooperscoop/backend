@@ -1,5 +1,5 @@
-if [ "$ENVIRONMENT" == "dev" ]; then
-    echo dev
+if [ "$ENVIRONMENT" = "dev" ]; then
+    nodemon
 else
-    echo not dev
+    ts-node ./src/index.ts
 fi
