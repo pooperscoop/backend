@@ -3,7 +3,10 @@ services:
   snapoo:
     container_name: snapoo
     restart: always
-    build: .
+    build: 
+      context: .
+      args: 
+        ENVIRONMENT: dev
     ports:
       - "4200:4200"
     depends_on:
@@ -17,6 +20,9 @@ services:
       - JWT_SECRET=averysecretsecret
       - MAILGUN_API_KEY=amailgunapi
       - EMAIL_DOMAIN=email.domain.com
+      - WAIT_HOSTS=mongo:27017
+    volumes: 
+      - './src:/usr/src/app/src'
   mongo:
     container_name: mongo
     image: mongo
