@@ -10,7 +10,7 @@ services:
       - mongo
     links:
       - mongo
-    environment: 
+    environment:
       - ENVIRONMENT=prod
       - HOST_URL=domain.com
       - PORT=4200
@@ -19,8 +19,13 @@ services:
       - MAILGUN_API_KEY=amailgunapi
       - EMAIL_DOMAIN=email.domain.com
       - WAIT_HOSTS=mongo:27017
-    volumes: 
-      - './src:/usr/src/app/src'
+    volumes:
+      - "./src:/usr/src/app/src"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
   mongo:
     container_name: mongo
     image: mongo
@@ -28,6 +33,11 @@ services:
       - /data/db
     ports:
       - "27017:27017"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
   portainer:
     image: portainer/portainer
     command: -H unix:///var/run/docker.sock
@@ -37,6 +47,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
 
 volumes:
   portainer_data:
